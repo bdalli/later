@@ -18,29 +18,36 @@ app.get('/articles', (req, res, next) => {
   
 });
 
-// creates one
+/* creates one -- replace this function
 app.post('/articles', (req, res, next) => {
   const article = { title: req.body.title };
-  articles.push(article); // add to articles array
-  res.status(200).send('Ok added ' + article + '\n');
-});
+  Article.push(err, article) => { // add to articles array
+  
+    res.status(200).send('Ok added ' + article + '\n');
 
+});
+*/
 
 
 // gets a single article
 app.get('/articles/:id', (req, res, next) => {
   const id = req.params.id;
-  Article.all(id, (err, articles) => {
-  console.log('Fetching:', id);
-  res.send(articles[id]);
+  Article.find(id, (err, article) => {
+    if (err) return next(err)
+    console.log('Fetching:', id);
+    res.send(article);
   })
 });
 
 app.delete('/articles/:id', (req, res, next) => {
   const id = req.params.id;
-  console.log('Deleting:', id);
-  res.send({ message: 'Deleted' });
-});
+  Article.delete(id, (err, article) => {
+    if (err) return next(err)
+    console.log('Deleting:', id);
+    res.send({ message: 'Deleted' });
+ })
+})
+
 
 app.listen(port, () => {
   console.log('Started express web app at localhost:' + port);
