@@ -4,6 +4,7 @@ const port = 3000;
 const articles = [{ title: 'Example:' }];
 const bodyParser = require('body-parser');
 const Article = require('../model/db').Article;
+const read = require('node-readability');
 
 // json and form encoded(default) bodies
 app.use(bodyParser.json());
@@ -18,15 +19,22 @@ app.get('/articles', (req, res, next) => {
   
 });
 
-/* creates one -- replace this function
-app.post('/articles', (req, res, next) => {
-  const article = { title: req.body.title };
-  Article.push(err, article) => { // add to articles array
-  
-    res.status(200).send('Ok added ' + article + '\n');
+ //pulls data from url than created article
 
+app.post('/articles', (req, res, next) => {
+   const url = req.body.url;
+  read(url, (err, result) => {
+   if (err || !result) res.status(500).send('Error retrieving article');
+     Article.create(
+      { title: result.title, content : result.content },
+      (err, article) => {
+        if (err) return next(err);
+      }
+    ) // add to articles array
+      res.status(200);
+    })
 });
-*/
+
 
 
 // gets a single article
