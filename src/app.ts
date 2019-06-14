@@ -13,49 +13,42 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //  gets all
 app.get('/articles', (req, res, next) => {
   Article.all((err, articles) => {
-    if (err) return next(err)
+    if (err) return next(err);
     res.send(articles);
-  })
-  
+  });
 });
 
- //pulls data from url than created article
+//pulls data from url than created article
 
 app.post('/articles', (req, res, next) => {
-   const url = req.body.url;
+  const url = req.body.url;
   read(url, (err, result) => {
-   if (err || !result) res.status(500).send('Error retrieving article');
-     Article.create(
-      { title: result.title, content : result.content },
-      (err, article) => {
-        if (err) return next(err);
-      }
-    ) // add to articles array
-      res.status(200);
-    })
+    if (err || !result) res.status(500).send('Error retrieving article \n');
+    Article.create({ title: result.title, content: result.content }, (err, article) => {
+      if (err) return next(err);
+      res.status(200).send('OK Added ' + url + '\n');
+    });
+  });
 });
-
-
 
 // gets a single article
 app.get('/articles/:id', (req, res, next) => {
   const id = req.params.id;
   Article.find(id, (err, article) => {
-    if (err) return next(err)
+    if (err) return next(err);
     console.log('Fetching:', id);
     res.send(article);
-  })
+  });
 });
 
 app.delete('/articles/:id', (req, res, next) => {
   const id = req.params.id;
   Article.delete(id, (err, article) => {
-    if (err) return next(err)
+    if (err) return next(err);
     console.log('Deleting:', id);
     res.send({ message: 'Deleted' });
- })
-})
-
+  });
+});
 
 app.listen(port, () => {
   console.log('Started express web app at localhost:' + port);
