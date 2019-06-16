@@ -9,12 +9,22 @@ const read = require('node-readability');
 // json and form encoded(default) bodies
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+// load bootstrap css
+app.use('/css/bootstrap.css', express.static('../node_modules/bootstrap/dist/css/bootstrap.css'));
 
 //  gets all
 app.get('/articles', (req, res, next) => {
   Article.all((err, articles) => {
     if (err) return next(err);
-    res.send(articles);
+    // format response using express render
+    res.format({
+      html: () => {
+        res.render('articles.ejs', { articles: articles });
+      },
+      json: () => {
+        res.send(articles);
+      }
+    });
   });
 });
 
@@ -37,7 +47,14 @@ app.get('/articles/:id', (req, res, next) => {
   Article.find(id, (err, article) => {
     if (err) return next(err);
     console.log('Fetching:', id);
-    res.send(article);
+    res.format({
+      html: () => {
+        res.render('articles.ejs', { articles: articles });
+      },
+      json: () => {
+        res.send(articles);
+      }
+    });
   });
 });
 

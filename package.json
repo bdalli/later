@@ -19,9 +19,18 @@
   "homepage": "https://github.com/bdalli/later#readme",
   "dependencies": {
     "@types/node": "^12.0.7",
+    "acorn-dynamic-import": "^4.0.0",
     "body-parser": "^1.19.0",
+    "bootstrap": "^4.3.1",
+    "ejs": "^2.6.2",
+    "ejs-lint": "^0.3.0",
     "express": "^4.17.1",
+    "jquery": "^3.4.1",
     "node-readability": "^3.0.0",
+    "popper": "^1.0.1",
     "sqlite3": "^4.0.8"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0"
   }
 }

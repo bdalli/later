@@ -6,4 +6,4 @@ npm-debug.log
 dist/
 .prettierrc
 later.sqlite
-package.lock.json
+package-lock.json
